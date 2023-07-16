@@ -1,28 +1,32 @@
-﻿namespace LabExam
+namespace Lab_Exam_2
 {
-    internal class Program
+    public class Program
     {
-        static void Main()
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Book 1 Information");
-            TestData td = new TestData("BASIC","Kumar Mehra");
-            Console.WriteLine(" Title = "+td.Title+", Author = "+td.Author);
-            Console.WriteLine("Book 2 Information");
-            TestData t = new TestData("C+", "Sainath Sharma");
-            Console.WriteLine(" Title = " + t.Title + ", Author = " + t.Author);
-            Console.WriteLine("Above is the Book Information");
-        }
-    }
-    public class TestData
-    {
-        public string Title { get; set; }
-        public string Author { get; set; }
+            var builder = WebApplication.CreateBuilder(args);
 
-        public TestData(string title, string author)
-        {
-            this.Title = title; 
-            this.Author = author;
+            // Add services to the container.
+            builder.Services.AddControllersWithViews();
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.Run();
         }
     }
-    
 }
